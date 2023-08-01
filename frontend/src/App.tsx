@@ -2,6 +2,7 @@ import './App.css'
 import TableView from './components/Tableview'
 import SearchEmployee from './components/SearchEmployee'
 import { useState } from 'react'
+import Headline from './components/Headline'
 
 export type Employee = {
   id: string
@@ -206,6 +207,7 @@ function App() {
   )
   return (
     <>
+      <Headline label={'Employee list'} />
       <SearchEmployee
         onClick={resetSearchInput}
         onChange={handleOnChange}
