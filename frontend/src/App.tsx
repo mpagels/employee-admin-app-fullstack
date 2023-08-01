@@ -1,5 +1,7 @@
 import './App.css'
 import TableView from './components/Tableview'
+import SearchEmployee from './components/SearchEmployee'
+import { useState } from 'react'
 
 export type Employee = {
   id: string
@@ -188,7 +190,30 @@ const employees: Employee[] = [
 ]
 
 function App() {
-  return <TableView employees={employees} />
+  const [searchInput, setSearchInput] = useState<string>('')
+
+  function handleOnChange(newInput: string) {
+    setSearchInput(newInput)
+  }
+
+  function resetSearchInput() {
+    setSearchInput('')
+  }
+  const filteredEmployees: Employee[] = employees.filter(
+    (employee) =>
+      employee.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      searchInput === ''
+  )
+  return (
+    <>
+      <SearchEmployee
+        onClick={resetSearchInput}
+        onChange={handleOnChange}
+        searchInput={searchInput}
+      />
+      <TableView employees={filteredEmployees} />
+    </>
+  )
 }
 
 export default App
