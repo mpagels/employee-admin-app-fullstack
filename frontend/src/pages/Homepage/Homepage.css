@@ -1,0 +1,11 @@
+.action-btn-wrapper {
+    display: flex;
+    gap: 25px;
+}
+
+.add-btn {
+    background-color: #347d39;
+}
+.add-btn:hover {
+    border-color:  #347d39;
+}

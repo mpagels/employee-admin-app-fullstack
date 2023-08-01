@@ -1,7 +1,8 @@
 import './FormTextInput.css'
+import React from 'react'
 
 type FormTextInputProps = {
-  handleOnChange: (event) => void
+  handleOnChange: (event: React.ChangeEvent) => void
   searchInput: string
   id: string
   isEmail?: boolean
