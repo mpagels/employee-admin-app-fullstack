@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import SearchEmployee from '../../components/SearchEmployee'
 import TableView from '../../components/Tableview'
 import React, { useState } from 'react'
@@ -26,11 +27,16 @@ export function Homepage({ employees, children }: HomepageProps) {
   return (
     <div>
       {children}
-      <SearchEmployee
-        onClick={resetSearchInput}
-        onChange={handleOnChange}
-        searchInput={searchInput}
-      />
+      <div style={{ display: 'flex', gap: '25px' }}>
+        <Link to={'/add'}>
+          <button>Add new employee</button>
+        </Link>
+        <SearchEmployee
+          onClick={resetSearchInput}
+          onChange={handleOnChange}
+          searchInput={searchInput}
+        />
+      </div>
       <TableView employees={filteredEmployees} />
     </div>
   )

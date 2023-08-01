@@ -3,6 +3,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Headline from './components/Headline'
 import { Homepage } from './pages/Homepage'
+import { AddPage } from './pages/AddPage'
 
 export type Employee = {
   id: string
@@ -199,6 +200,14 @@ function App() {
           <Homepage employees={employees}>
             <Headline label={'Employee list'} />
           </Homepage>
+        }
+      />{' '}
+      <Route
+        path={'/add'}
+        element={
+          <AddPage>
+            <Headline label={'Add employee'} />
+          </AddPage>
         }
       />
     </Routes>
