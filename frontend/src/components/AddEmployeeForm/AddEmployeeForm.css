@@ -1,0 +1,44 @@
+.add-employee-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.input-item {
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.button-size {
+    width: 300px;
+    justify-self: center;
+}
+
+.form-save-btn {
+    padding: 5px 16px;
+    border-radius: 6px;
+    color: #ffffff;
+    background-color: #347d39;
+
+}
+
+.form-cancel-btn {
+    padding: 5px 16px;
+    border-radius: 6px;
+    color: #e5534b;
+    background-color: #373e47;
+}
+
+.form-cancel-btn:hover {
+    color: #fff;
+    background-color: #e5534b;
+    border-color: #e5534b;
+}
+
+.form-save-btn:hover {
+    border-color: #347d39;
+}

@@ -1,8 +1,10 @@
 import './App.css'
-import TableView from './components/Tableview'
-import SearchEmployee from './components/SearchEmployee'
-import { useState } from 'react'
+
+import { Route, Routes } from 'react-router-dom'
 import Headline from './components/Headline'
+import { Homepage } from './pages/Homepage'
+import { AddPage } from './pages/AddPage'
+import { useState } from 'react'
 
 export type Employee = {
   id: string
@@ -12,7 +14,7 @@ export type Employee = {
   email: string
 }
 
-const employees: Employee[] = [
+const initState: Employee[] = [
   {
     id: '89926747-260C-D5A6-6DC9-706D93185190',
     firstName: 'Elaine',
@@ -191,30 +193,31 @@ const employees: Employee[] = [
 ]
 
 function App() {
-  const [searchInput, setSearchInput] = useState<string>('')
+  const [employees, setEmployees] = useState(initState)
 
-  function handleOnChange(newInput: string) {
-    setSearchInput(newInput)
+  function addEmployee(newEmploye: Employee) {
+    setEmployees([newEmploye, ...employees])
   }
 
-  function resetSearchInput() {
-    setSearchInput('')
-  }
-  const filteredEmployees: Employee[] = employees.filter(
-    (employee) =>
-      employee.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
-      searchInput === ''
-  )
   return (
-    <>
-      <Headline label={'Employee list'} />
-      <SearchEmployee
-        onClick={resetSearchInput}
-        onChange={handleOnChange}
-        searchInput={searchInput}
+    <Routes>
+      <Route
+        path={'/'}
+        element={
+          <Homepage employees={employees}>
+            <Headline label={'Employee list'} />
+          </Homepage>
+        }
+      />{' '}
+      <Route
+        path={'/add'}
+        element={
+          <AddPage addEmployee={addEmployee}>
+            <Headline label={'Add employee'} />
+          </AddPage>
+        }
       />
-      <TableView employees={filteredEmployees} />
-    </>
+    </Routes>
   )
 }
 
