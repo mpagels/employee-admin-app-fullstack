@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Headline from './components/Headline'
 import { Homepage } from './pages/Homepage'
 import { AddPage } from './pages/AddPage'
+import { useState } from 'react'
 
 export type Employee = {
   id: string
@@ -13,7 +14,7 @@ export type Employee = {
   email: string
 }
 
-const employees: Employee[] = [
+const initState: Employee[] = [
   {
     id: '89926747-260C-D5A6-6DC9-706D93185190',
     firstName: 'Elaine',
@@ -192,6 +193,12 @@ const employees: Employee[] = [
 ]
 
 function App() {
+  const [employees, setEmployees] = useState(initState)
+
+  function addEmployee(newEmploye: Employee) {
+    setEmployees([newEmploye, ...employees])
+  }
+
   return (
     <Routes>
       <Route
@@ -205,7 +212,7 @@ function App() {
       <Route
         path={'/add'}
         element={
-          <AddPage>
+          <AddPage addEmployee={addEmployee}>
             <Headline label={'Add employee'} />
           </AddPage>
         }

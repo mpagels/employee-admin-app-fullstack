@@ -3,6 +3,7 @@ import SearchEmployee from '../../components/SearchEmployee'
 import TableView from '../../components/Tableview'
 import React, { useState } from 'react'
 import { Employee } from '../../App.tsx'
+import './Homepage.css'
 
 type HomepageProps = {
   employees: Employee[]
@@ -27,9 +28,9 @@ export function Homepage({ employees, children }: HomepageProps) {
   return (
     <div>
       {children}
-      <div style={{ display: 'flex', gap: '25px' }}>
+      <div className={'action-btn-wrapper'}>
         <Link to={'/add'}>
-          <button>Add new employee</button>
+          <button className={'add-btn'}>Add new employee</button>
         </Link>
         <SearchEmployee
           onClick={resetSearchInput}
