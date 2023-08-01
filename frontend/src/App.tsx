@@ -1,8 +1,8 @@
 import './App.css'
-import TableView from './components/Tableview'
-import SearchEmployee from './components/SearchEmployee'
-import { useState } from 'react'
+
+import { Route, Routes } from 'react-router-dom'
 import Headline from './components/Headline'
+import { Homepage } from './pages/Homepage'
 
 export type Employee = {
   id: string
@@ -191,30 +191,17 @@ const employees: Employee[] = [
 ]
 
 function App() {
-  const [searchInput, setSearchInput] = useState<string>('')
-
-  function handleOnChange(newInput: string) {
-    setSearchInput(newInput)
-  }
-
-  function resetSearchInput() {
-    setSearchInput('')
-  }
-  const filteredEmployees: Employee[] = employees.filter(
-    (employee) =>
-      employee.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
-      searchInput === ''
-  )
   return (
-    <>
-      <Headline label={'Employee list'} />
-      <SearchEmployee
-        onClick={resetSearchInput}
-        onChange={handleOnChange}
-        searchInput={searchInput}
+    <Routes>
+      <Route
+        path={'/'}
+        element={
+          <Homepage employees={employees}>
+            <Headline label={'Employee list'} />
+          </Homepage>
+        }
       />
-      <TableView employees={filteredEmployees} />
-    </>
+    </Routes>
   )
 }
 
