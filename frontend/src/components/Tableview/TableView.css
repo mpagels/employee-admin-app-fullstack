@@ -27,3 +27,15 @@ table.darkTable thead th {
 table.darkTable tfoot td {
     font-size: 12px;
 }
+
+.delete-btn {
+    border-radius: 6px;
+    color: #e5534b;
+    background-color: #373e47;
+}
+
+.delete-btn:hover {
+    color: #fff;
+    background-color: #e5534b;
+    border-color: #e5534b;
+}

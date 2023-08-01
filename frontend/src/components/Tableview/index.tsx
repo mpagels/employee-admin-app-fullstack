@@ -3,9 +3,13 @@ import './TableView.css'
 
 type TableViewProp = {
   employees: Employee[]
+  deleteEmployee: (id: string) => void
 }
 
-export default function TableView({ employees }: TableViewProp) {
+export default function TableView({
+  employees,
+  deleteEmployee,
+}: TableViewProp) {
   return (
     <table className="darkTable">
       <thead>
@@ -25,7 +29,14 @@ export default function TableView({ employees }: TableViewProp) {
               <td>{employee.lastName}</td>
               <td>{employee.role}</td>
               <td>{employee.email}</td>
-              <td>Buttons</td>
+              <td>
+                <button
+                  className={'delete-btn'}
+                  onClick={() => deleteEmployee(employee.id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           )
         })}

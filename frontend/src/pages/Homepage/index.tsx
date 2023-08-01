@@ -8,9 +8,14 @@ import './Homepage.css'
 type HomepageProps = {
   employees: Employee[]
   children: React.ReactElement
+  deleteEmployee: (id: string) => void
 }
 
-export function Homepage({ employees, children }: HomepageProps) {
+export function Homepage({
+  employees,
+  children,
+  deleteEmployee,
+}: HomepageProps) {
   const [searchInput, setSearchInput] = useState<string>('')
 
   function handleOnChange(newInput: string) {
@@ -38,7 +43,10 @@ export function Homepage({ employees, children }: HomepageProps) {
           searchInput={searchInput}
         />
       </div>
-      <TableView employees={filteredEmployees} />
+      <TableView
+        employees={filteredEmployees}
+        deleteEmployee={deleteEmployee}
+      />
     </div>
   )
 }
