@@ -199,12 +199,19 @@ function App() {
     setEmployees([newEmploye, ...employees])
   }
 
+  function deleteEmployee(id: string) {
+    const result = confirm('Do you really want to \n' + 'delete this Emplyee?')
+    if (result) {
+      setEmployees(employees.filter((employee) => employee.id !== id))
+    }
+  }
+
   return (
     <Routes>
       <Route
         path={'/'}
         element={
-          <Homepage employees={employees}>
+          <Homepage employees={employees} deleteEmployee={deleteEmployee}>
             <Headline label={'Employee list'} />
           </Homepage>
         }
