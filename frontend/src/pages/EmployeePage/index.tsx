@@ -1,52 +1,50 @@
 import { useParams } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Employee } from '../../App.tsx'
 import './EmployeePage.css'
+import axios from 'axios'
 
 type EmployeePageProps = {
   children: React.ReactElement
-  employees: Employee[]
   deleteEmployee: (x: string) => void
 }
 
-function EmployeePage({
-  children,
-  employees,
-  deleteEmployee,
-}: EmployeePageProps) {
+function EmployeePage({ children, deleteEmployee }: EmployeePageProps) {
+  const [employee, setEmployee] = useState<Employee>()
   const { id } = useParams()
-  const foundEmployee: Employee | undefined = employees.find(
-    (employee) => employee.id === id
-  )
+
+  useEffect(() => {
+    axios.get('/api/employees/' + id).then((data) => setEmployee(data.data))
+  }, [id])
 
   return (
     <div>
       {children}
-      {foundEmployee === undefined ? (
-        <h2>Nothing found</h2>
+      {employee === undefined ? (
+        <h2>Loading...</h2>
       ) : (
         <>
           <div className={'employee-display-wrapper'}>
             <div>
               <h2>First name:</h2>
-              <p>{foundEmployee.firstName}</p>
+              <p>{employee.firstName}</p>
             </div>{' '}
             <div>
               <h2>Last name:</h2>
-              <p>{foundEmployee.lastName}</p>
+              <p>{employee.lastName}</p>
             </div>
             <div>
               <h2>Email:</h2>
-              <p>{foundEmployee.email}</p>
+              <p>{employee.email}</p>
             </div>
             <div>
               <h2>Role:</h2>
-              <p>{foundEmployee.role}</p>
+              <p>{employee.role}</p>
             </div>
           </div>
           <button
             className={'delete-btn'}
-            onClick={() => deleteEmployee(foundEmployee.id)}
+            onClick={() => deleteEmployee(employee.id)}
           >
             Delete
           </button>
