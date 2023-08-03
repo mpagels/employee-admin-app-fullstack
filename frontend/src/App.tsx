@@ -25,8 +25,14 @@ function App() {
   }, [])
   function addEmployee(newEmploye: Employee) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    axios.post('/api/employees', newEmploye).then((_) => {
-      axios.get('/api/employees').then((data) => setEmployees(data.data))
+    axios.post('/api/employees', newEmploye).then((response) => {
+      console.log(response.status)
+      if (response.status === 304) {
+        alert('Email already used. Employee not added.')
+      } else {
+        axios.get('/api/employees').then((data) => setEmployees(data.data))
+        navigate('/')
+      }
     })
   }
 
