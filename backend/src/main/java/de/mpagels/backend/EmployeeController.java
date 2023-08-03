@@ -19,6 +19,11 @@ public class EmployeeController {
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
+
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable String id) throws EmployeeDoesNotExistException {
+        return employeeService.getEmployeeById(id);
+    }
     @GetMapping("/ids")
     public Set<String> getAllEmployeesIDs() {
         return employeeService.getAllEmployeesIDs();

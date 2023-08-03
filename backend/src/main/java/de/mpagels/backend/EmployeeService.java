@@ -51,4 +51,12 @@ public class EmployeeService {
     public Set<String> getAllEmployeesIDs() {
         return employeeRepository.getAllEmployeesIDs();
     }
+
+    public Employee getEmployeeById(String id) throws EmployeeDoesNotExistException {
+        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
+        if (containsNotEmployee) {
+            throw new EmployeeDoesNotExistException("Employee does not exists");
+        }
+        return employeeRepository.getEmployeeById(id);
+    }
 }

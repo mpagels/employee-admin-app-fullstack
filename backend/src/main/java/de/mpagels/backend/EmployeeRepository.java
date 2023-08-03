@@ -36,7 +36,7 @@ public class EmployeeRepository {
         return employees.remove(id);
     }
 
-    public Employee getEmployee(String id) {
+    public Employee getEmployeeById(String id) {
         return employees.get(id);
     }
 
@@ -54,9 +54,10 @@ public class EmployeeRepository {
     private static boolean isEmailUnique(Employee employee, Map<String, Employee> employeeMap) {
         for (Employee existingEmployee : employeeMap.values()) {
             if (existingEmployee.equals(employee)) {
-                return false; // Found a duplicate email
+                return false;
             }
         }
-        return true; // Email is unique
+        return true;
     }
+
 }
