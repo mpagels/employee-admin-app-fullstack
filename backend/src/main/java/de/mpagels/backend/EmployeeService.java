@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+
 @Data
 @Service
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(Employee employee) throws EmployeeAlreadyExistException {
-        boolean containsEmployee = employeeRepository.isEmployeePresent(employee.getEmail());
+        boolean containsEmployee = employeeRepository.isEmployeePresent(employee.getId());
         if (containsEmployee) {
             throw new EmployeeAlreadyExistException("Email is already used");
         }
@@ -25,14 +27,28 @@ public class EmployeeService {
         return addedEmployee;
     }
 
-    public Employee removeEmployee(String email) throws EmployeeDoesNotExistException {
-        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(email);
+    public Employee removeEmployee(String id) throws EmployeeDoesNotExistException {
+        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
 
         if (containsNotEmployee) {
             throw new EmployeeDoesNotExistException("Employee does not exists");
         }
 
-        Employee removedEmployee = employeeRepository.removeEmployee(email);
+        Employee removedEmployee = employeeRepository.removeEmployee(id);
         return removedEmployee;
+    }
+
+    public Employee updateEmployee(String id, Employee employee) throws EmployeeDoesNotExistException {
+        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
+        if (containsNotEmployee) {
+            throw new EmployeeDoesNotExistException("Employee does not exists");
+        }
+
+        Employee updatedEmployee = employeeRepository.updateEmployee(id, employee);
+        return updatedEmployee;
+    }
+
+    public Set<String> getAllEmployeesIDs() {
+        return employeeRepository.getAllEmployeesIDs();
     }
 }

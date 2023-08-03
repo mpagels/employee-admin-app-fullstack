@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,10 @@ public class EmployeeController {
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
+    @GetMapping("/ids")
+    public Set<String> getAllEmployeesIDs() {
+        return employeeService.getAllEmployeesIDs();
+    }
 
     @PostMapping
     public Employee addEmployee(@RequestBody Employee employee) throws Exception {
@@ -26,10 +31,17 @@ public class EmployeeController {
         return addedEmployee;
     }
 
-    @DeleteMapping("/{email}")
-    public Employee removeEmployee(@PathVariable String email) throws EmployeeDoesNotExistException {
-        System.out.println(email);
-        Employee removedEmployee = employeeService.removeEmployee(email);
+    @PutMapping("/{id}")
+    public Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) throws EmployeeDoesNotExistException{
+        Employee updatedEmployee = employeeService.updateEmployee(id, employee);
+        return updatedEmployee;
+
+    }
+
+    @DeleteMapping("/{id}")
+    public Employee removeEmployee(@PathVariable String id) throws EmployeeDoesNotExistException {
+        System.out.println(id);
+        Employee removedEmployee = employeeService.removeEmployee(id);
         return removedEmployee;
     }
 }
