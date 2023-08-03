@@ -24,7 +24,10 @@ function App() {
     axios.get('/api/employees').then((data) => setEmployees(data.data))
   }, [])
   function addEmployee(newEmploye: Employee) {
-    setEmployees([newEmploye, ...employees])
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    axios.post('/api/employees', newEmploye).then((_) => {
+      axios.get('/api/employees').then((data) => setEmployees(data.data))
+    })
   }
 
   function deleteEmployee(id: string) {
@@ -66,10 +69,7 @@ function App() {
       <Route
         path={'/employee/:id'}
         element={
-          <EmployeePage
-            employees={employees}
-            deleteEmployee={deleteEmployeeAndPushToRoot}
-          >
+          <EmployeePage deleteEmployee={deleteEmployeeAndPushToRoot}>
             <Headline label={'View employee'} />
           </EmployeePage>
         }
