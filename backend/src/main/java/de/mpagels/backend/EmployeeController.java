@@ -2,9 +2,7 @@ package de.mpagels.backend;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +17,11 @@ public class EmployeeController {
     @GetMapping
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
+    }
+
+    @PostMapping
+    public Employee addEmployee(@RequestBody Employee employee) {
+        Employee addedEmployee = employeeService.addEmployee(employee);
+        return addedEmployee;
     }
 }
