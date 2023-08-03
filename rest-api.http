@@ -1,0 +1,43 @@
+### Get all employees
+
+GET http://localhost:8080/api/employees HTTP/1.1
+Accept: application/json
+
+### Get all employees ids
+
+GET http://localhost:8080/api/employees/ids HTTP/1.1
+Accept: application/json
+
+### Add one employee
+
+POST http://localhost:8080/api/employees HTTP/1.1
+content-type: application/json
+
+{
+    "id": "123457",
+    "firstName": "Martin",
+    "lastName": "Pagels",
+    "email": "martin@neuefische.de",
+    "role": "Coach"
+}
+
+### Delete one employee
+DELETE http://localhost:8080/api/employees/123456 HTTP/1.1
+Accept: application/json
+
+### Delete one employee
+DELETE http://localhost:8080/api/employees/martin@neuefische.de HTTP/1.1
+Accept: application/json
+
+### Update an existing employee
+
+PUT http://localhost:8080/api/employees/123457 HTTP/1.1
+content-type: application/json
+
+{
+    "id": "123456",
+    "firstName": "Martin der zweite",
+    "lastName": "Pagels",
+    "email": "robert@neuefische.de",
+    "role": "Coach"
+}
