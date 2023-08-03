@@ -3,7 +3,6 @@ import { FormTextInput } from '../FormTextInput'
 import { Link } from 'react-router-dom'
 import { Employee } from '../../App.tsx'
 import { nanoid } from 'nanoid'
-import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 
 type AddEmployeeFormProps = {
@@ -15,8 +14,6 @@ export function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [role, setRole] = useState<'CEO' | 'Lead' | 'Coach'>('CEO')
-
-  const navigate = useNavigate()
 
   function handleOnChangeFirstName(event: React.ChangeEvent<HTMLInputElement>) {
     setFirstName(event.target.value)
@@ -41,7 +38,6 @@ export function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
       role,
       id: nanoid(),
     })
-    navigate('/')
   }
   return (
     <form className={'add-employee-form'} onSubmit={handleSubmit}>
