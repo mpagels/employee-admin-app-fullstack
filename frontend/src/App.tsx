@@ -30,7 +30,10 @@ function App() {
   function deleteEmployee(id: string) {
     const result = confirm('Do you really want to \n' + 'delete this Emplyee?')
     if (result) {
-      setEmployees(employees.filter((employee) => employee.id !== id))
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      axios.delete('/api/employees/' + id).then((_) => {
+        axios.get('/api/employees').then((data) => setEmployees(data.data))
+      })
     }
   }
 
