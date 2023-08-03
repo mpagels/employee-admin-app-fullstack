@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Data
@@ -12,14 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 public class EmployeeRepository {
 
-    private List<Employee> employees = new ArrayList<>();
+    private final HashMap<String, Employee> employees = new HashMap<>();
 
     public List<Employee> getAllEmployees() {
-        return employees;
+        return new ArrayList<>(employees.values());
     }
 
     public Employee addEmployee(Employee newEmployee) {
-        employees.add(newEmployee);
+        employees.put(newEmployee.getEmail(), newEmployee);
         return newEmployee;
     }
 
