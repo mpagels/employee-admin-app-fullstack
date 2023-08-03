@@ -1,5 +1,6 @@
 import { Employee } from '../../App.tsx'
 import './TableView.css'
+import { Link } from 'react-router-dom'
 
 type TableViewProp = {
   employees: Employee[]
@@ -30,6 +31,9 @@ export default function TableView({
               <td>{employee.role}</td>
               <td>{employee.email}</td>
               <td>
+                <Link to={`/employee/${employee.id}`}>
+                  <button className={'delete-btn'}>View</button>
+                </Link>
                 <button
                   className={'delete-btn'}
                   onClick={() => deleteEmployee(employee.id)}
