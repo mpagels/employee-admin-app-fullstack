@@ -24,4 +24,8 @@ public class EmployeeRepository {
         return newEmployee;
     }
 
+    public boolean isEmployeePresent(String email) {
+        return employees.containsKey(email);
+    }
+
 }

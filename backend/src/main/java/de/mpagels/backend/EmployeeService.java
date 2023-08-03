@@ -16,7 +16,11 @@ public class EmployeeService {
         return employeeRepository.getAllEmployees();
     }
 
-    public Employee addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) throws Exception {
+        boolean containsEmployee = employeeRepository.isEmployeePresent(employee.getEmail());
+        if (containsEmployee) {
+            throw new RuntimeException("Email is already used");
+        }
         Employee addedEmployee = employeeRepository.addEmployee(employee);
         return addedEmployee;
     }
