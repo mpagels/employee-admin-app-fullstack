@@ -12,4 +12,9 @@ public class ControllerAdviser {
     private ResponseEntity<Object> handleExeption(EmployeeAlreadyExistException e) {
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
+
+    @ExceptionHandler(EmployeeDoesNotExistException.class)
+    private ResponseEntity<Object> handleExeption(EmployeeDoesNotExistException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

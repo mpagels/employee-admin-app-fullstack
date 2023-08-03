@@ -24,4 +24,15 @@ public class EmployeeService {
         Employee addedEmployee = employeeRepository.addEmployee(employee);
         return addedEmployee;
     }
+
+    public Employee removeEmployee(String email) throws EmployeeDoesNotExistException {
+        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(email);
+
+        if (containsNotEmployee) {
+            throw new EmployeeDoesNotExistException("Employee does not exists");
+        }
+
+        Employee removedEmployee = employeeRepository.removeEmployee(email);
+        return removedEmployee;
+    }
 }

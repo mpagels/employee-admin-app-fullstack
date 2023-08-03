@@ -28,4 +28,12 @@ public class EmployeeRepository {
         return employees.containsKey(email);
     }
 
+    public Employee removeEmployee(String email) {
+        return employees.remove(email);
+    }
+
+    public Employee getEmployee(String email) {
+        return employees.get(email);
+    }
+
 }

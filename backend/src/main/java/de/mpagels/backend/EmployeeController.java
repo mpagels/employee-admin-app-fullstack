@@ -25,4 +25,11 @@ public class EmployeeController {
         Employee addedEmployee = employeeService.addEmployee(employee);
         return addedEmployee;
     }
+
+    @DeleteMapping("/{email}")
+    public Employee removeEmployee(@PathVariable String email) throws EmployeeDoesNotExistException {
+        System.out.println(email);
+        Employee removedEmployee = employeeService.removeEmployee(email);
+        return removedEmployee;
+    }
 }
