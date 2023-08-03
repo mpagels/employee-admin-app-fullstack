@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ControllerAdviser {
 
-    @ExceptionHandler(Exception.class)
-    private ResponseEntity<Object> handleExeption(Exception e) {
+    @ExceptionHandler(EmployeeAlreadyExistException.class)
+    private ResponseEntity<Object> handleExeption(EmployeeAlreadyExistException e) {
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 }
