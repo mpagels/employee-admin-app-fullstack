@@ -1,10 +1,11 @@
 import './App.css'
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Headline from './components/Headline'
 import { Homepage } from './pages/Homepage'
 import { AddPage } from './pages/AddPage'
 import { useState } from 'react'
+import EmployeePage from './pages/EmployeePage'
 
 export type Employee = {
   id: string
@@ -194,7 +195,7 @@ const initState: Employee[] = [
 
 function App() {
   const [employees, setEmployees] = useState(initState)
-
+  const navigate = useNavigate()
   function addEmployee(newEmploye: Employee) {
     setEmployees([newEmploye, ...employees])
   }
@@ -203,6 +204,14 @@ function App() {
     const result = confirm('Do you really want to \n' + 'delete this Emplyee?')
     if (result) {
       setEmployees(employees.filter((employee) => employee.id !== id))
+    }
+  }
+
+  function deleteEmployeeAndPushToRoot(id: string) {
+    const result = confirm('Do you really want to \n' + 'delete this Emplyee?')
+    if (result) {
+      setEmployees(employees.filter((employee) => employee.id !== id))
+      navigate('/')
     }
   }
 
@@ -222,6 +231,17 @@ function App() {
           <AddPage addEmployee={addEmployee}>
             <Headline label={'Add employee'} />
           </AddPage>
+        }
+      />
+      <Route
+        path={'/employee/:id'}
+        element={
+          <EmployeePage
+            employees={employees}
+            deleteEmployee={deleteEmployeeAndPushToRoot}
+          >
+            <Headline label={'View employee'} />
+          </EmployeePage>
         }
       />
     </Routes>
