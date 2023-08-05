@@ -81,7 +81,7 @@ public class EmployeeControllerTest {
 
     @DirtiesContext
     @Test
-    void addEmployee_shouldReturnStatusCode304_whenEmployeeIsAlreadyInRepository() throws Exception {
+    void addEmployee_shouldReturnStatusCode304_whenEmployeeIsAlreadyInRepositoryCheckedThroughId() throws Exception {
         Employee employee = new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach");
         employeeRepository.addEmployee(employee);
 
@@ -159,5 +159,25 @@ public class EmployeeControllerTest {
                          }
                         """
                 ));
+    }
+    @DirtiesContext
+    @Test
+    void addEmployee_shouldReturn302_whenNewEmployeeHasEmailThatIsAlreadyInUse() throws Exception {
+        Employee employee = new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach");
+        employeeRepository.addEmployee(employee);
+        mvc.perform(MockMvcRequestBuilders.post("/api/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                 {
+                                     "id": "123457",
+                                     "firstName": "Martin der zweite",
+                                     "lastName": "Pagels",
+                                     "email": "martin@neuefische.de",
+                                     "role": "Coach"
+                                 }
+                                """
+                        ))
+                .andExpect(MockMvcResultMatchers.status().isNotModified());
     }
 }

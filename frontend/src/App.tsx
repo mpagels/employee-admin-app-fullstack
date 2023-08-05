@@ -5,7 +5,7 @@ import Headline from './components/Headline'
 import { Homepage } from './pages/Homepage'
 import { AddPage } from './pages/AddPage'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import axios ,{AxiosResponse, AxiosError} from 'axios'
 import EmployeePage from './pages/EmployeePage'
 
 export type Employee = {
@@ -21,18 +21,20 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get('/api/employees').then((data) => setEmployees(data.data))
+    axios.get('/api/employees').then((data:AxiosResponse) => setEmployees(data.data))
   }, [])
   function addEmployee(newEmploye: Employee) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    axios.post('/api/employees', newEmploye).then((response) => {
+    axios.post('/api/employees', newEmploye).then((response:AxiosResponse) => {
       console.log(response.status)
-      if (response.status === 304) {
-        alert('Email already used. Employee not added.')
-      } else {
+
         axios.get('/api/employees').then((data) => setEmployees(data.data))
         navigate('/')
-      }
+
+    }).catch((error:AxiosError) => {
+        if (error.response?.status === 304) {
+            alert('Email already used. Employee not added. Try another email address.')
+        }
     })
   }
 

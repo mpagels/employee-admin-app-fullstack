@@ -53,7 +53,7 @@ public class EmployeeRepository {
 
     private static boolean isEmailUnique(Employee employee, Map<String, Employee> employeeMap) {
         for (Employee existingEmployee : employeeMap.values()) {
-            if (existingEmployee.equals(employee)) {
+            if (existingEmployee.getEmail().equals(employee.getEmail())) {
                 return false;
             }
         }
