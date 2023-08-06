@@ -12,6 +12,7 @@ type EmployeePageProps = {
   isInEditMode: boolean
   toggleIsEditMode: () => void
   addEmployee: (employee: Employee) => void
+  setIsInEditModeToFalse:() => void
 }
 
 function EmployeePage({ children, deleteEmployee, editEmployee, isInEditMode, toggleIsEditMode, addEmployee, setIsInEditModeToFalse }: EmployeePageProps) {
@@ -32,7 +33,7 @@ function EmployeePage({ children, deleteEmployee, editEmployee, isInEditMode, to
         <h2>Loading...</h2>
       ) : (
         <>
-          {isInEditMode ? <AddEmployeeForm setIsInEditModeToFalse={setIsInEditModeToFalse} addEmployee={addEmployee} employeeData={employee} isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode} editEmployee={editEmployee}/> :
+          {isInEditMode ? <AddEmployeeForm addEmployee={addEmployee} employeeData={employee} isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode} editEmployee={editEmployee}/> :
           <div className={'employee-display-wrapper'}>
             <div>
               <h2>First name:</h2>

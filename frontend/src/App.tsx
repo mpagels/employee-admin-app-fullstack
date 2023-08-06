@@ -26,7 +26,7 @@ function App() {
   }, [])
   function addEmployee(newEmploye: Employee) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    axios.post('/api/employees', newEmploye).then((response:AxiosResponse) => {
+    axios.post('/api/employees', newEmploye).then(() => {
         axios.get('/api/employees').then((data) => setEmployees(data.data))
         navigate('/')
 
@@ -38,7 +38,8 @@ function App() {
   }
 
   function editEmployee(id:string, updatedEmployee:Employee) {
-      axios.put(`/api/employees/${id}`, updatedEmployee).then((response:AxiosResponse) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      axios.put(`/api/employees/${id}`, updatedEmployee).then(() => {
           axios.get('/api/employees').then((data) => setEmployees(data.data))
           navigate('/')
           toggleIsEditMode()
@@ -78,7 +79,7 @@ function App() {
       <Route
         path={'/'}
         element={
-          <Homepage employees={employees} deleteEmployee={deleteEmployee} editEmployee={editEmployee} toggleIsEditMode={toggleIsEditMode}>
+          <Homepage employees={employees} deleteEmployee={deleteEmployee} toggleIsEditMode={toggleIsEditMode}>
             <Headline label={'Employee list'} />
           </Homepage>
         }
@@ -86,7 +87,7 @@ function App() {
       <Route
         path={'/add'}
         element={
-          <AddPage addEmployee={addEmployee} editEmployee={editEmployee}  isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode} editEmployee={editEmployee}>
+          <AddPage addEmployee={addEmployee} editEmployee={editEmployee}  isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode}>
             <Headline label={'Add employee'} />
           </AddPage>
         }

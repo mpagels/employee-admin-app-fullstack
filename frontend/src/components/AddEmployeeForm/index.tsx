@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 
 type AddEmployeeFormProps = {
   addEmployee: (employee: Employee) => void
-  employeeData: Employee
+  employeeData?: Employee
   isInEditMode: boolean
   toggleEditMode : () => void
   editEmployee: (id:string, updatedEmployee:Employee) => void
