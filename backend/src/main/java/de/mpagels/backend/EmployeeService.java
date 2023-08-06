@@ -38,12 +38,11 @@ public class EmployeeService {
         return removedEmployee;
     }
 
-    public Employee updateEmployee(String id, Employee employee) throws EmployeeDoesNotExistException {
+    public Employee updateEmployee(String id, Employee employee) throws EmployeeDoesNotExistException, EmployeeAlreadyExistException {
         boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
         if (containsNotEmployee) {
             throw new EmployeeDoesNotExistException("Employee does not exists");
         }
-
         Employee updatedEmployee = employeeRepository.updateEmployee(id, employee);
         return updatedEmployee;
     }

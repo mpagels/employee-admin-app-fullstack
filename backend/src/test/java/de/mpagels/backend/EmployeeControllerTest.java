@@ -131,7 +131,7 @@ public class EmployeeControllerTest {
 
     @DirtiesContext
     @Test
-    void updateEmployee_shouldReturnUpdatedEmployee() throws Exception {
+    void updateEmployee_shouldReturnUpdatedEmployee_whenEmailWasChanged() throws Exception {
         Employee employee = new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach");
         employeeRepository.addEmployee(employee);
         mvc.perform(MockMvcRequestBuilders.put("/api/employees/123456")
@@ -159,7 +159,61 @@ public class EmployeeControllerTest {
                          }
                         """
                 ));
+    }@DirtiesContext
+    @Test
+    void updateEmployee_shouldReturnUpdatedEmployee_whenNameWasChanged() throws Exception {
+        Employee employee = new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach");
+        employeeRepository.addEmployee(employee);
+        mvc.perform(MockMvcRequestBuilders.put("/api/employees/123456")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                 {
+                                     "id": "123456",
+                                     "firstName": "Martin der dritte",
+                                     "lastName": "Pagels",
+                                     "email": "martin@neuefische.de",
+                                     "role": "Coach"
+                                 }
+                                """
+                        ))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        """
+                          {
+                                     "id": "123456",
+                                     "firstName": "Martin der dritte",
+                                     "lastName": "Pagels",
+                                     "email": "martin@neuefische.de",
+                                     "role": "Coach"
+                                 }
+                        """
+                ));
     }
+    @DirtiesContext
+    @Test
+    void updateEmployee_shouldReturn304_whenUpdatedEmployeeHasEmailThatIsAlreadyUsed() throws Exception {
+        Employee employee = new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach");
+        Employee employee2 = new Employee("123457", "Robert", "Hoffmann", "robert@neuefische.de", "Coach");
+        employeeRepository.addEmployee(employee);
+        employeeRepository.addEmployee(employee2);
+        
+        mvc.perform(MockMvcRequestBuilders.put("/api/employees/123457")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                 {
+                                     "id": "123457",
+                                     "firstName": "Robert",
+                                     "lastName": "Hoffmann",
+                                     "email": "martin@neuefische.de",
+                                     "role": "Coach"
+                                 }
+                                """
+                        ))
+                .andExpect(MockMvcResultMatchers.status().isNotModified());
+    }
+    
     @DirtiesContext
     @Test
     void addEmployee_shouldReturn302_whenNewEmployeeHasEmailThatIsAlreadyInUse() throws Exception {

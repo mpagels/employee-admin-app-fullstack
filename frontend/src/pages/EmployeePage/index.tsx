@@ -1,17 +1,25 @@
-import { useParams } from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { Employee } from '../../App.tsx'
 import './EmployeePage.css'
 import axios from 'axios'
+import {AddEmployeeForm} from "../../components/AddEmployeeForm";
 
 type EmployeePageProps = {
   children: React.ReactElement
   deleteEmployee: (x: string) => void
+  editEmployee: (id:string, newEmployee:Employee) => void
+  isInEditMode: boolean
+  toggleIsEditMode: () => void
+  addEmployee: (employee: Employee) => void
 }
 
-function EmployeePage({ children, deleteEmployee }: EmployeePageProps) {
+function EmployeePage({ children, deleteEmployee, editEmployee, isInEditMode, toggleIsEditMode, addEmployee, setIsInEditModeToFalse }: EmployeePageProps) {
   const [employee, setEmployee] = useState<Employee>()
+
+
   const { id } = useParams()
+
 
   useEffect(() => {
     axios.get('/api/employees/' + id).then((data) => setEmployee(data.data))
@@ -24,6 +32,7 @@ function EmployeePage({ children, deleteEmployee }: EmployeePageProps) {
         <h2>Loading...</h2>
       ) : (
         <>
+          {isInEditMode ? <AddEmployeeForm setIsInEditModeToFalse={setIsInEditModeToFalse} addEmployee={addEmployee} employeeData={employee} isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode} editEmployee={editEmployee}/> :
           <div className={'employee-display-wrapper'}>
             <div>
               <h2>First name:</h2>
@@ -41,13 +50,27 @@ function EmployeePage({ children, deleteEmployee }: EmployeePageProps) {
               <h2>Role:</h2>
               <p>{employee.role}</p>
             </div>
-          </div>
+          </div>}
+
+          <div className={"action-button-wrapper"}>
+            <Link to={"/"}>
+              <button onClick={setIsInEditModeToFalse}>
+                Back to employee list
+              </button>
+            </Link>
+          <button
+              className={'delete-btn'}
+              onClick={toggleIsEditMode}
+          >
+            {!isInEditMode ? "Edit" : "Cancel Edit"}
+          </button>
           <button
             className={'delete-btn'}
             onClick={() => deleteEmployee(employee.id)}
           >
             Delete
           </button>
+          </div>
         </>
       )}
     </div>

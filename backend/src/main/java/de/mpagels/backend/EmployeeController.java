@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) throws EmployeeDoesNotExistException{
+    public Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) throws EmployeeDoesNotExistException, EmployeeAlreadyExistException {
         Employee updatedEmployee = employeeService.updateEmployee(id, employee);
         return updatedEmployee;
 

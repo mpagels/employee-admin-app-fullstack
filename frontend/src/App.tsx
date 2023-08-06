@@ -12,13 +12,14 @@ export type Employee = {
   id: string
   firstName: string
   lastName: string
-  role: 'CEO' | 'Coach' | 'Lead'
+  role: ''| 'CEO' | 'Coach' | 'Lead'
   email: string
 }
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([])
-  const navigate = useNavigate()
+    const [isInEditMode, setIsInEditMode] = useState<boolean>(false)
+    const navigate = useNavigate()
 
   useEffect(() => {
     axios.get('/api/employees').then((data:AxiosResponse) => setEmployees(data.data))
@@ -26,8 +27,6 @@ function App() {
   function addEmployee(newEmploye: Employee) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     axios.post('/api/employees', newEmploye).then((response:AxiosResponse) => {
-      console.log(response.status)
-
         axios.get('/api/employees').then((data) => setEmployees(data.data))
         navigate('/')
 
@@ -38,6 +37,17 @@ function App() {
     })
   }
 
+  function editEmployee(id:string, updatedEmployee:Employee) {
+      axios.put(`/api/employees/${id}`, updatedEmployee).then((response:AxiosResponse) => {
+          axios.get('/api/employees').then((data) => setEmployees(data.data))
+          navigate('/')
+          toggleIsEditMode()
+      }).catch((error:AxiosError) => {
+          if (error.response?.status === 304) {
+              alert('Email already used. Employee not modified. Try another email address.')
+          }
+      })
+  }
   function deleteEmployee(id: string) {
     const result = confirm('Do you really want to \n' + 'delete this Emplyee?')
     if (result) {
@@ -56,12 +66,19 @@ function App() {
     }
   }
 
+  function toggleIsEditMode() {
+      setIsInEditMode(!isInEditMode)
+  }
+
+  function setIsInEditModeToFalse(){
+      setIsInEditMode(false)
+  }
   return (
     <Routes>
       <Route
         path={'/'}
         element={
-          <Homepage employees={employees} deleteEmployee={deleteEmployee}>
+          <Homepage employees={employees} deleteEmployee={deleteEmployee} editEmployee={editEmployee} toggleIsEditMode={toggleIsEditMode}>
             <Headline label={'Employee list'} />
           </Homepage>
         }
@@ -69,7 +86,7 @@ function App() {
       <Route
         path={'/add'}
         element={
-          <AddPage addEmployee={addEmployee}>
+          <AddPage addEmployee={addEmployee} editEmployee={editEmployee}  isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode} editEmployee={editEmployee}>
             <Headline label={'Add employee'} />
           </AddPage>
         }
@@ -77,8 +94,8 @@ function App() {
       <Route
         path={'/employee/:id'}
         element={
-          <EmployeePage deleteEmployee={deleteEmployeeAndPushToRoot}>
-            <Headline label={'View employee'} />
+          <EmployeePage addEmployee={addEmployee} deleteEmployee={deleteEmployeeAndPushToRoot} toggleIsEditMode={toggleIsEditMode} isInEditMode={isInEditMode} editEmployee={editEmployee} setIsInEditModeToFalse={setIsInEditModeToFalse}>
+            <Headline label={isInEditMode ? 'Edit employee' : 'View employee'} />
           </EmployeePage>
         }
       />
