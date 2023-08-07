@@ -3,20 +3,23 @@ import { FormTextInput } from '../FormTextInput'
 import { Link } from 'react-router-dom'
 import { Employee } from '../../App.tsx'
 import { nanoid } from 'nanoid'
-import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 
 type AddEmployeeFormProps = {
   addEmployee: (employee: Employee) => void
+  employeeData?: Employee
+  isInEditMode: boolean
+  toggleEditMode : () => void
+  editEmployee: (id:string, updatedEmployee:Employee) => void
 }
 
-export function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [role, setRole] = useState<'CEO' | 'Lead' | 'Coach'>('CEO')
+const emptyEmployeeData : Employee = {id:"", email:"", role:"", lastName:"", firstName:""}
 
-  const navigate = useNavigate()
+export function AddEmployeeForm({ addEmployee, employeeData = emptyEmployeeData, isInEditMode, editEmployee , toggleEditMode}: AddEmployeeFormProps) {
+  const [firstName, setFirstName] = useState('' || employeeData.firstName)
+  const [lastName, setLastName] = useState('' || employeeData.lastName)
+  const [email, setEmail] = useState('' || employeeData.email)
+  const [role, setRole] = useState<""| 'CEO' | 'Lead' | 'Coach'>('' || employeeData.role)
 
   function handleOnChangeFirstName(event: React.ChangeEvent<HTMLInputElement>) {
     setFirstName(event.target.value)
@@ -34,6 +37,16 @@ export function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (isInEditMode) {
+      editEmployee(employeeData.id,{
+        id: employeeData.id,
+        firstName,
+        lastName,
+        email,
+        role,
+      } )
+    } else {
+
     addEmployee({
       firstName,
       lastName,
@@ -41,7 +54,7 @@ export function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
       role,
       id: nanoid(),
     })
-    navigate('/')
+    }
   }
   return (
     <form className={'add-employee-form'} onSubmit={handleSubmit}>
@@ -78,9 +91,9 @@ export function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
           <option value={'Coach'}>Coach</option>
         </select>
       </div>
-      <button className={'form-save-btn button-size'}>Save Employee</button>
+      <button className={'form-save-btn button-size'}>{isInEditMode ? "Edit employee" : "Save employee"}</button>
       <Link to={'/'}>
-        <button className={'form-cancel-btn button-size'} type={'button'}>
+        <button onClick={toggleEditMode} className={'form-cancel-btn button-size'} type={'button'}>
           Cancel and back
         </button>
       </Link>

@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom'
 type TableViewProp = {
   employees: Employee[]
   deleteEmployee: (id: string) => void
+    toggleIsEditMode:() => void
 }
 
 export default function TableView({
   employees,
   deleteEmployee,
+                                      toggleIsEditMode
 }: TableViewProp) {
   return (
     <table className="darkTable">
@@ -31,9 +33,13 @@ export default function TableView({
               <td>{employee.role}</td>
               <td>{employee.email}</td>
               <td>
+
                 <Link to={`/employee/${employee.id}`}>
-                  <button className={'delete-btn'}>View</button>
+                  <button className={'view-btn'}>View</button>
                 </Link>
+                  <Link to={`/employee/${employee.id}`}>
+                      <button onClick={toggleIsEditMode} className={'edit-btn'}>Edit</button>
+                  </Link>
                 <button
                   className={'delete-btn'}
                   onClick={() => deleteEmployee(employee.id)}

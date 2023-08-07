@@ -9,12 +9,14 @@ type HomepageProps = {
   employees: Employee[]
   children: React.ReactElement
   deleteEmployee: (id: string) => void
+  toggleIsEditMode:() => void
 }
 
 export function Homepage({
   employees,
   children,
   deleteEmployee,
+                           toggleIsEditMode
 }: HomepageProps) {
   const [searchInput, setSearchInput] = useState<string>('')
 
@@ -46,6 +48,7 @@ export function Homepage({
       <TableView
         employees={filteredEmployees}
         deleteEmployee={deleteEmployee}
+        toggleIsEditMode={toggleIsEditMode}
       />
     </div>
   )

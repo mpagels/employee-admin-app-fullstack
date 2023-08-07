@@ -1,55 +1,77 @@
-import { useParams } from 'react-router-dom'
-import React from 'react'
+import {Link, useParams} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { Employee } from '../../App.tsx'
 import './EmployeePage.css'
+import axios from 'axios'
+import {AddEmployeeForm} from "../../components/AddEmployeeForm";
 
 type EmployeePageProps = {
   children: React.ReactElement
-  employees: Employee[]
   deleteEmployee: (x: string) => void
+  editEmployee: (id:string, newEmployee:Employee) => void
+  isInEditMode: boolean
+  toggleIsEditMode: () => void
+  addEmployee: (employee: Employee) => void
+  setIsInEditModeToFalse:() => void
 }
 
-function EmployeePage({
-  children,
-  employees,
-  deleteEmployee,
-}: EmployeePageProps) {
+function EmployeePage({ children, deleteEmployee, editEmployee, isInEditMode, toggleIsEditMode, addEmployee, setIsInEditModeToFalse }: EmployeePageProps) {
+  const [employee, setEmployee] = useState<Employee>()
+
+
   const { id } = useParams()
-  const foundEmployee: Employee | undefined = employees.find(
-    (employee) => employee.id === id
-  )
+
+
+  useEffect(() => {
+    axios.get('/api/employees/' + id).then((data) => setEmployee(data.data))
+  }, [id])
 
   return (
     <div>
       {children}
-      {foundEmployee === undefined ? (
-        <h2>Nothing found</h2>
+      {employee === undefined ? (
+        <h2>Loading...</h2>
       ) : (
         <>
+          {isInEditMode ? <AddEmployeeForm addEmployee={addEmployee} employeeData={employee} isInEditMode={isInEditMode} toggleEditMode={toggleIsEditMode} editEmployee={editEmployee}/> :
           <div className={'employee-display-wrapper'}>
             <div>
               <h2>First name:</h2>
-              <p>{foundEmployee.firstName}</p>
+              <p>{employee.firstName}</p>
             </div>{' '}
             <div>
               <h2>Last name:</h2>
-              <p>{foundEmployee.lastName}</p>
+              <p>{employee.lastName}</p>
             </div>
             <div>
               <h2>Email:</h2>
-              <p>{foundEmployee.email}</p>
+              <p>{employee.email}</p>
             </div>
             <div>
               <h2>Role:</h2>
-              <p>{foundEmployee.role}</p>
+              <p>{employee.role}</p>
             </div>
-          </div>
+          </div>}
+
+          <div className={"action-button-wrapper"}>
+            <Link to={"/"}>
+              <button onClick={setIsInEditModeToFalse}>
+                Back to employee list
+              </button>
+            </Link>
+          <button
+              className={'delete-btn'}
+              onClick={toggleIsEditMode}
+          >
+            {!isInEditMode ? "Edit" : "Cancel Edit"}
+          </button>
           <button
             className={'delete-btn'}
-            onClick={() => deleteEmployee(foundEmployee.id)}
+            onClick={() => deleteEmployee(employee.id)}
           >
             Delete
           </button>
+          </div>
         </>
       )}
     </div>

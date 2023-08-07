@@ -28,7 +28,7 @@ table.darkTable tfoot td {
     font-size: 12px;
 }
 
-.delete-btn {
+.delete-btn, .view-btn, .edit-btn{
     border-radius: 6px;
     color: #e5534b;
     background-color: #373e47;
@@ -38,4 +38,16 @@ table.darkTable tfoot td {
     color: #fff;
     background-color: #e5534b;
     border-color: #e5534b;
+}
+
+.view-btn:hover {
+    color: #fff;
+    background-color: darkseagreen;
+    border-color: darkseagreen;
+}
+
+.edit-btn:hover {
+    color: #000;
+    background-color: lightyellow;
+    border-color: lightyellow;
 }

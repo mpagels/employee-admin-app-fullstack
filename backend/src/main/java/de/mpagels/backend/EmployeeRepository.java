@@ -40,10 +40,14 @@ public class EmployeeRepository {
         return employees.get(id);
     }
 
-    public Employee updateEmployee(String id, Employee employee) {
-        employees.remove(id);
-        employees.put(employee.getId(), employee);
-        return employees.get(employee.getId());
+    public Employee updateEmployee(String id, Employee employee) throws EmployeeAlreadyExistException {
+        if (isEmailUniqueOnUpdatedEmployee(employee, employees)) {
+            employees.remove(id);
+            employees.put(employee.getId(), employee);
+            return employees.get(employee.getId());
+        } else {
+            throw new EmployeeAlreadyExistException("Email is already used");
+        }
 
     }
 
@@ -53,7 +57,21 @@ public class EmployeeRepository {
 
     private static boolean isEmailUnique(Employee employee, Map<String, Employee> employeeMap) {
         for (Employee existingEmployee : employeeMap.values()) {
-            if (existingEmployee.equals(employee)) {
+            if (existingEmployee.getEmail().equals(employee.getEmail())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean isEmailUniqueOnUpdatedEmployee(Employee updatedEmployee, Map<String, Employee> employeeMap) {
+        for (Employee existingEmployee : employeeMap.values()) {
+            if (existingEmployee.getEmail().equals(updatedEmployee.getEmail()) && updatedEmployee.getId().equals(existingEmployee.getId())) {
+                return true;
+            }
+        }
+        for (Employee existingEmployee : employeeMap.values()) {
+            if (existingEmployee.getEmail().equals(updatedEmployee.getEmail())) {
                 return false;
             }
         }
