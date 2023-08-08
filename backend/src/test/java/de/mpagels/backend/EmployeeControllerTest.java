@@ -98,7 +98,7 @@ public class EmployeeControllerTest {
                                   }
                                 """
                         ))
-                .andExpect(MockMvcResultMatchers.status().is(304));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @DirtiesContext
@@ -211,7 +211,7 @@ public class EmployeeControllerTest {
                                  }
                                 """
                         ))
-                .andExpect(MockMvcResultMatchers.status().isNotModified());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
     
     @DirtiesContext
@@ -232,6 +232,6 @@ public class EmployeeControllerTest {
                                  }
                                 """
                         ))
-                .andExpect(MockMvcResultMatchers.status().isNotModified());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

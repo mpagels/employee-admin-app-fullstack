@@ -10,7 +10,7 @@ public class ControllerAdviser {
 
     @ExceptionHandler(EmployeeAlreadyExistException.class)
     private ResponseEntity<Object> handleExeption(EmployeeAlreadyExistException e) {
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ExceptionHandler(EmployeeDoesNotExistException.class)
