@@ -17,7 +17,7 @@ public class EmployeeServiceTest {
 
         employeeService.addEmployee(new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach"));
 
-        Mockito.verify(employeeRepository).addEmployee(new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach"));
+        Mockito.verify(employeeRepository).save(new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach"));
     }
 
     @Test
@@ -25,7 +25,7 @@ public class EmployeeServiceTest {
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
-        Mockito.when(employeeRepository.getAllEmployees()).thenReturn(List.of(
+        Mockito.when(employeeRepository.findAll()).thenReturn(List.of(
                 new Employee("123456", "Martin", "Pagels", "martin@neuefische.de", "Coach"),
                 new Employee("123457", "Martin", "Pagels", "martin2@neuefische.de", "Coach")
         ));
@@ -38,6 +38,6 @@ public class EmployeeServiceTest {
                 employeeService.getAllEmployees()
         );
 
-        Mockito.verify(employeeRepository).getAllEmployees();
+        Mockito.verify(employeeRepository).findAll();
     }
 }

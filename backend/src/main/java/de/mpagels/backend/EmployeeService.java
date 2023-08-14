@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -15,47 +16,48 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.getAllEmployees();
+        return employeeRepository.findAll();
     }
 
     public Employee addEmployee(Employee employee) throws EmployeeAlreadyExistException {
-        boolean containsEmployee = employeeRepository.isEmployeePresent(employee.getId());
+        boolean containsEmployee = employeeRepository.existsEmployeeById(employee.getId());
         if (containsEmployee) {
             throw new EmployeeAlreadyExistException("Email is already used");
         }
-        Employee addedEmployee = employeeRepository.addEmployee(employee);
+        Employee addedEmployee = employeeRepository.save(employee);
         return addedEmployee;
     }
 
-    public Employee removeEmployee(String id) throws EmployeeDoesNotExistException {
-        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
+    public void removeEmployee(String id) throws EmployeeDoesNotExistException {
+        boolean containsNotEmployee = !employeeRepository.existsEmployeeById(id);
 
         if (containsNotEmployee) {
             throw new EmployeeDoesNotExistException("Employee does not exists");
         }
 
-        Employee removedEmployee = employeeRepository.removeEmployee(id);
-        return removedEmployee;
+        employeeRepository.deleteById(id);
+
     }
 
     public Employee updateEmployee(String id, Employee employee) throws EmployeeDoesNotExistException, EmployeeAlreadyExistException {
-        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
+        boolean containsNotEmployee = !employeeRepository.existsEmployeeById(id);
         if (containsNotEmployee) {
             throw new EmployeeDoesNotExistException("Employee does not exists");
         }
-        Employee updatedEmployee = employeeRepository.updateEmployee(id, employee);
+        Employee updatedEmployee = employeeRepository.save(employee);
         return updatedEmployee;
     }
 
     public Set<String> getAllEmployeesIDs() {
-        return employeeRepository.getAllEmployeesIDs();
+        return employeeRepository.findAll().stream().map(e -> e.getId()).collect(Collectors.toSet());
+
     }
 
     public Employee getEmployeeById(String id) throws EmployeeDoesNotExistException {
-        boolean containsNotEmployee = !employeeRepository.isEmployeePresent(id);
+        boolean containsNotEmployee = !employeeRepository.existsEmployeeById(id);
         if (containsNotEmployee) {
             throw new EmployeeDoesNotExistException("Employee does not exists");
         }
-        return employeeRepository.getEmployeeById(id);
+        return employeeRepository.findById(id).orElse(null);
     }
 }

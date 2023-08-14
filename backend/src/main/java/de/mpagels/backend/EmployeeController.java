@@ -13,7 +13,7 @@ import java.util.Set;
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     @GetMapping
     public List<Employee> getAllEmployees() {
@@ -44,9 +44,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public Employee removeEmployee(@PathVariable String id) throws EmployeeDoesNotExistException {
+    public void removeEmployee(@PathVariable String id) throws EmployeeDoesNotExistException {
         System.out.println(id);
-        Employee removedEmployee = employeeService.removeEmployee(id);
-        return removedEmployee;
+        employeeService.removeEmployee(id);
     }
 }
