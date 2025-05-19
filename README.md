@@ -1,8 +1,3 @@
-Great, I’ll create an English README for the GitHub project that describes a simple employee admin app built with Java Spring Boot and React. This will serve as a learning-focused full-stack example.
-
-I’ll review the repo structure, technologies used, and typical installation/usage setup, and I’ll draft a well-structured README accordingly.
-
-
 # Employee Admin App (Full Stack)
 
 ## Description
